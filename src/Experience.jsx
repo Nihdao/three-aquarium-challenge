@@ -11,9 +11,9 @@ export default function Experience() {
       <Perf position="top-left" />
 
       <color attach="background" args={["#bdedfc"]} />
-      <OrbitControls makeDefault />
+      {/* <OrbitControls makeDefault /> */}
 
-      <Physics>
+      <Physics debug gravity={[0, -1, 0]}>
         <Lights />
 
         {/* <Level count={blocksCount} seed={blockSeed} /> */}

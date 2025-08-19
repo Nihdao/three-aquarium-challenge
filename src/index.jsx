@@ -14,7 +14,10 @@ root.render(
       { name: "moveBackward", keys: ["ArrowDown", "KeyS"] },
       { name: "moveLeft", keys: ["ArrowLeft", "KeyA"] },
       { name: "moveRight", keys: ["ArrowRight", "KeyD"] },
-      { name: "jump", keys: ["Space"] },
+      { name: "swimFast", keys: ["Shift"] },
+      { name: "moveDown", keys: ["KeyC"] },
+      { name: "moveUp", keys: ["Space"] },
+      { name: "action", keys: ["KeyE"] },
     ]}
   >
     <Canvas
