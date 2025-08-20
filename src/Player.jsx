@@ -22,16 +22,24 @@ export default function Player() {
     () => new THREE.Vector3(10, 10, 10)
   );
   const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
-
-  // Controles de position seulement
-  const { fishOffset, showAxes } = useControls({
-    fishOffset: {
-      value: { x: 0, y: -0.2, z: 0 },
+  const { moveDownV, moveUpV, moveDownT, moveUpT } = useControls({
+    moveDownV: {
+      value: 0.3,
       step: 0.1,
     },
-    showAxes: true,
+    moveUpV: {
+      value: -0.3,
+      step: 0.1,
+    },
+    moveDownT: {
+      value: 1.2,
+      step: 0.1,
+    },
+    moveUpT: {
+      value: 1.2,
+      step: 0.1,
+    },
   });
-
   // DoubleSide pour que le modèle soit visible de l'intérieur et de l'extérieur
   useEffect(() => {
     // Parcourir tous les enfants du modèle pour appliquer doubleSide aux matériaux
@@ -131,6 +139,7 @@ export default function Player() {
     const swimStrength = 5.0;
     const turnStrength = 2.0;
     const floatStrength = 3.0;
+    const tiltStrength = 0.8;
 
     if (moveForward) {
       // Mouvement vers l'avant dans la direction locale du poisson
@@ -172,18 +181,27 @@ export default function Player() {
     const bodyPosition = player.current.translation();
     // Réutiliser bodyRotation et fishQuaternion déjà calculés
 
-    // Calculate camera offset based on player rotation
+    // Calculate camera tilt based on vertical movement
+    const tiltAngle = moveUp ? moveUpV : moveDown ? moveDownV : 0;
+    const tiltQuaternion = new THREE.Quaternion().setFromEuler(
+      new THREE.Euler(tiltAngle, 0, 0)
+    );
+
+    // Calculate camera offset based on player rotation and tilt
     const cameraOffset = new THREE.Vector3(0, 2.65, -8.25);
-    cameraOffset.applyQuaternion(fishQuaternion);
+    // Appliquer d'abord le tilt dans l'espace local, puis la rotation du poisson
+    cameraOffset
+      .applyQuaternion(tiltQuaternion)
+      .applyQuaternion(fishQuaternion);
 
     // Set camera position relative to player position and rotation
     const cameraPosition = new THREE.Vector3();
     cameraPosition.copy(bodyPosition).add(cameraOffset);
 
-    // Set camera target to look at player
+    // Set camera target to look at player with vertical offset
     const cameraTarget = new THREE.Vector3();
     cameraTarget.copy(bodyPosition);
-    cameraTarget.y += 0.25;
+    cameraTarget.y += moveUp ? moveUpT : moveDown ? moveDownT : 0.25;
 
     // Smooth camera movement
     smoothedCameraPosition.lerp(cameraPosition, 0.1);
