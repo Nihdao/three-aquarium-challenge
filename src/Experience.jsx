@@ -42,7 +42,7 @@ export default function Experience() {
     <>
       <Perf position="top-left" />
 
-      <color attach="background" args={["#130f40"]} />
+      <color attach="background" args={["#120118"]} />
 
       {/* OrbitControls pour le mode contemplation */}
       {cameraMode === "orbit" && (

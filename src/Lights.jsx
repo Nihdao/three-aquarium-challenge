@@ -1,31 +1,58 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js";
+import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper.js";
 
 export default function Lights() {
   const directionalLightRef = useRef();
+  const rectLightRef = useRef();
+  const helperRef = useRef();
 
-  useFrame((state) => {
-    directionalLightRef.current.position.z = state.camera.position.z + 1 - 4;
-    directionalLightRef.current.target.position.z = state.camera.position.z - 4;
-    directionalLightRef.current.target.updateMatrixWorld();
-  });
+  // Initialiser les uniformes pour RectAreaLight
+  RectAreaLightUniformsLib.init();
+
+  // Créer le helper quand la lumière est montée
+  useEffect(() => {
+    if (rectLightRef.current && helperRef.current) {
+      const helper = new RectAreaLightHelper(rectLightRef.current);
+      helperRef.current.add(helper);
+
+      return () => {
+        helperRef.current?.remove(helper);
+      };
+    }
+  }, []);
+
+  //   useFrame((state) => {
+  //     directionalLightRef.current.position.z = state.camera.position.z + 1 - 4;
+  //     directionalLightRef.current.target.position.z = state.camera.position.z - 4;
+  //     directionalLightRef.current.target.updateMatrixWorld();
+  //   });
 
   return (
     <>
-      <directionalLight
+      {/* <directionalLight
         castShadow
         ref={directionalLightRef}
         position={[4, 4, 1]}
-        intensity={4.5}
-        shadow-mapSize={[2048, 2048]}
-        shadow-camera-near={1}
-        shadow-camera-far={20}
-        shadow-camera-top={20}
-        shadow-camera-right={10}
-        shadow-camera-bottom={-10}
-        shadow-camera-left={-10}
+        intensity={10.5}
+      /> */}
+      <ambientLight intensity={2.5} color="#ffffff" />
+
+      {/* RectAreaLight violet dirigé vers le bas */}
+      <rectAreaLight
+        ref={rectLightRef}
+        color="#fdf8ff"
+        intensity={50}
+        width={150}
+        height={20}
+        position={[0, 76.5, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
       />
-      <ambientLight intensity={1.5} />
+
+      {/* Helper pour visualiser le RectAreaLight */}
+      <group ref={helperRef} />
     </>
   );
 }

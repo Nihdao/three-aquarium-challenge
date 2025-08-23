@@ -3,7 +3,7 @@ import * as THREE from "three";
 export function usePlayerMovement(player, isAttacking) {
   const swimStrength = 10.0;
   const turnStrength = 2.0;
-  const floatStrength = 3.0;
+  const floatStrength = 10.0;
 
   const calculateMovement = (keys, fishQuaternion) => {
     const { moveForward, moveBackward, moveLeft, moveRight, moveDown, moveUp } =
