@@ -29,7 +29,7 @@ export function usePlayerAttack(animations) {
       // Cooldown de l'attaque
       setTimeout(() => {
         setAttackCooldown(false);
-      }, 1200); // Cooldown total
+      }, 800); // Cooldown total
     }
 
     return true;

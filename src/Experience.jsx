@@ -1,6 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import Lights from "./Lights.jsx";
 import Player from "./Player.jsx";
+import FishTank from "./FishTank.jsx";
 import { Physics } from "@react-three/rapier";
 import useGame from "./stores/useGame.jsx";
 import { Perf } from "r3f-perf";
@@ -17,6 +18,7 @@ export default function Experience() {
         <Lights />
 
         {/* <Level count={blocksCount} seed={blockSeed} /> */}
+        <FishTank />
         <Player />
       </Physics>
     </>
