@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useControls } from "leva";
 import * as THREE from "three";
+import { useCameraStore } from "../stores/useCameraStore.jsx";
 
 export function usePlayerCamera() {
+  const { cameraMode } = useCameraStore();
   const [smoothedCameraPosition] = useState(
     () => new THREE.Vector3(10, 10, 10)
   );
@@ -28,6 +30,9 @@ export function usePlayerCamera() {
   });
 
   const updateCamera = (state, bodyPosition, fishQuaternion, keys) => {
+    // Ne mettre à jour la caméra que si on est en mode third-person
+    if (cameraMode !== "third-person") return;
+
     const { moveUp, moveDown } = keys;
 
     // Calculate camera tilt based on vertical movement
