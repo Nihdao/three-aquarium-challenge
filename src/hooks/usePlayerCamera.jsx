@@ -20,11 +20,11 @@ export function usePlayerCamera() {
       step: 0.1,
     },
     moveDownT: {
-      value: 1.2,
+      value: 2,
       step: 0.1,
     },
     moveUpT: {
-      value: 1.2,
+      value: 2,
       step: 0.1,
     },
   });
@@ -42,7 +42,7 @@ export function usePlayerCamera() {
     );
 
     // Calculate camera offset based on player rotation and tilt
-    const cameraOffset = new THREE.Vector3(0, 2.65, -8.25);
+    const cameraOffset = new THREE.Vector3(0, 2.65, -10.25);
     // Appliquer d'abord le tilt dans l'espace local, puis la rotation du poisson
     cameraOffset
       .applyQuaternion(tiltQuaternion)
@@ -58,8 +58,8 @@ export function usePlayerCamera() {
     cameraTarget.y += moveUp ? moveUpT : moveDown ? moveDownT : 0.25;
 
     // Smooth camera movement
-    smoothedCameraPosition.lerp(cameraPosition, 0.1);
-    smoothedCameraTarget.lerp(cameraTarget, 0.1);
+    smoothedCameraPosition.lerp(cameraPosition, 0.05);
+    smoothedCameraTarget.lerp(cameraTarget, 0.05);
 
     state.camera.position.copy(smoothedCameraPosition);
     state.camera.lookAt(smoothedCameraTarget);

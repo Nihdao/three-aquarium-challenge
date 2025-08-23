@@ -14,7 +14,7 @@ import { usePlayerAnimations } from "./hooks/usePlayerAnimations";
 
 // Composants
 import AttackHitbox from "./components/AttackHitbox";
-import DebugMarker from "./components/DebugMarker";
+// import DebugMarker from "./components/DebugMarker";
 
 export default function Player() {
   const playerFish = useGLTF("./assets/MandarinFish.glb");
@@ -96,7 +96,7 @@ export default function Player() {
       </RigidBody>
 
       {/* Marqueur de debug pour la position */}
-      <DebugMarker />
+      {/* <DebugMarker /> */}
     </>
   );
 }
