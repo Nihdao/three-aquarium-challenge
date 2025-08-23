@@ -7,11 +7,24 @@ import useGame from "./stores/useGame.jsx";
 import { useCameraStore } from "./stores/useCameraStore.jsx";
 import { Perf } from "r3f-perf";
 import { useControls } from "leva";
+import { EffectComposer } from "@react-three/postprocessing";
+import { WaterWaveEffect } from "./effects/WaterWaveEffect.jsx";
 import { useEffect } from "react";
 import { useThree } from "@react-three/fiber";
 
 export default function Experience() {
   const { cameraMode, setCameraMode } = useCameraStore();
+
+  // Contrôles pour l'effet d'ondulation
+  const { waveStrength, enableWaves, blueIntensity, waterColor } = useControls(
+    "Water Effects",
+    {
+      enableWaves: true,
+      waveStrength: { value: 1.2, min: 0, max: 2, step: 0.1 },
+      blueIntensity: { value: 0.4, min: 0, max: 1, step: 0.05 },
+      waterColor: { value: "#0060f0" },
+    }
+  );
   const { camera } = useThree();
 
   // Position par défaut pour la caméra orbit
@@ -64,6 +77,21 @@ export default function Experience() {
         <FishTank />
         <Player />
       </Physics>
+
+      {/* Post-processing avec effet d'ondulation uniquement en mode poisson */}
+      {cameraMode === "third-person" && enableWaves && (
+        <EffectComposer>
+          <WaterWaveEffect
+            strength={waveStrength}
+            blueIntensity={blueIntensity}
+            waterColor={[
+              parseInt(waterColor.slice(1, 3), 16) / 255,
+              parseInt(waterColor.slice(3, 5), 16) / 255,
+              parseInt(waterColor.slice(5, 7), 16) / 255,
+            ]}
+          />
+        </EffectComposer>
+      )}
     </>
   );
 }

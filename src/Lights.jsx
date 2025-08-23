@@ -38,15 +38,15 @@ export default function Lights() {
         position={[4, 4, 1]}
         intensity={10.5}
       /> */}
-      <ambientLight intensity={2.5} color="#ffffff" />
+      <ambientLight intensity={4.5} color="#ffffff" />
 
       {/* RectAreaLight violet dirigé vers le bas */}
       <rectAreaLight
         ref={rectLightRef}
         color="#fdf8ff"
         intensity={50}
-        width={150}
-        height={20}
+        width={100}
+        height={10}
         position={[0, 76.5, 0]}
         rotation={[-Math.PI / 2, 0, 0]}
       />

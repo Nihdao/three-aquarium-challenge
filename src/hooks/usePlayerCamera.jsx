@@ -42,7 +42,7 @@ export function usePlayerCamera() {
     );
 
     // Calculate camera offset based on player rotation and tilt
-    const cameraOffset = new THREE.Vector3(0, 2.65, -10.25);
+    const cameraOffset = new THREE.Vector3(0, 2.65 * 3, -10.25 * 3);
     // Appliquer d'abord le tilt dans l'espace local, puis la rotation du poisson
     cameraOffset
       .applyQuaternion(tiltQuaternion)
