@@ -73,7 +73,6 @@ export default function Experience() {
 
       <Physics gravity={[0, -1, 0]}>
         <Lights />
-
         <FishTank />
         <Player />
       </Physics>
