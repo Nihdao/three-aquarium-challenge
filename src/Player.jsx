@@ -87,7 +87,7 @@ export default function Player() {
 
   return (
     <>
-      <RigidBody ref={player} position={[0, 0, 0]} mass={1} colliders={false}>
+      <RigidBody ref={player} position={[0, 100, 0]} mass={1} colliders={false}>
         <CuboidCollider args={[1, 0.8, 1]} position={[0, 0, 0]} />
         <primitive object={playerFish.scene} scale={3} position={[0, 0, 0]} />
 

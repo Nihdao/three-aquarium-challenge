@@ -43,7 +43,7 @@ class WaterWaveEffectImpl extends Effect {
   constructor({
     strength = 1.0,
     blueIntensity = 0.3,
-    waterColor = [0.4, 0.7, 1.0],
+    waterColor = [0.663, 0.796, 1.0],
   } = {}) {
     super("WaterWaveEffect", fragmentShader, {
       uniforms: new Map([
@@ -58,7 +58,7 @@ class WaterWaveEffectImpl extends Effect {
 
 export const WaterWaveEffect = forwardRef(
   (
-    { strength = 1.0, blueIntensity = 0.3, waterColor = [0.4, 0.7, 1.0] },
+    { strength = 1.0, blueIntensity = 0.3, waterColor = [0.663, 0.796, 1.0] },
     ref
   ) => {
     const effect = useMemo(

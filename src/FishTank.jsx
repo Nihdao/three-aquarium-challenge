@@ -1,37 +1,34 @@
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import * as THREE from "three";
 
 export default function FishTank() {
-  const fishTank = useGLTF("./assets/FishTank.glb");
+  const { nodes } = useGLTF("./assets/FishTankv4.glb");
+  const fishTank_glass = useGLTF("./assets/FishTankv4_ft.glb");
+  const texture = useTexture("./assets/baked4.jpg");
+  texture.flipY = false;
 
-  // Configuration des matériaux pour la transparence du verre si nécessaire
-  useEffect(() => {
-    fishTank.scene.traverse((child) => {
-      if (child.isMesh && child.material) {
-        // Si le mesh contient "glass" ou "verre" dans son nom, on le rend transparent
-        if (
-          child.name.toLowerCase().includes("glass") ||
-          child.name.toLowerCase().includes("verre") ||
-          child.name.toLowerCase().includes("vitre")
-        ) {
-          if (Array.isArray(child.material)) {
-            child.material.forEach((material) => {
-              material.transparent = true;
-              material.opacity = 0.8;
-            });
-          } else {
-            child.material.transparent = true;
-            child.material.opacity = 0.8;
-          }
-        }
-      }
-    });
-  }, [fishTank.scene]);
+  const lightTopMaterial = useMemo(() => {
+    return <meshBasicMaterial color="#ff0000" />;
+  }, []);
+
+  const fishTankMaterial = useMemo(() => {
+    return <meshLambertMaterial color="#FFFFFF" opacity={0.2} transparent />;
+  }, []);
 
   return (
     <RigidBody type="fixed" colliders="trimesh">
-      <primitive object={fishTank.scene} scale={200} position={[0, -10, 0]} />
+      <group scale={1}>
+        <mesh
+          geometry={nodes.mergedBaked.geometry}
+          position={nodes.mergedBaked.position}
+        >
+          <meshBasicMaterial map={texture} />
+        </mesh>
+
+        <primitive object={fishTank_glass.nodes.FishTank} />
+      </group>
     </RigidBody>
   );
 }

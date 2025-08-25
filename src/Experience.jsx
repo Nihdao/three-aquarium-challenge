@@ -11,6 +11,7 @@ import { EffectComposer } from "@react-three/postprocessing";
 import { WaterWaveEffect } from "./effects/WaterWaveEffect.jsx";
 import { useEffect } from "react";
 import { useThree } from "@react-three/fiber";
+import { Environment } from "@react-three/drei";
 
 export default function Experience() {
   const { cameraMode, setCameraMode } = useCameraStore();
@@ -22,7 +23,7 @@ export default function Experience() {
       enableWaves: true,
       waveStrength: { value: 1.2, min: 0, max: 2, step: 0.1 },
       blueIntensity: { value: 0.4, min: 0, max: 1, step: 0.05 },
-      waterColor: { value: "#0060f0" },
+      waterColor: { value: "#a9cbff" },
     }
   );
   const { camera } = useThree();
@@ -50,12 +51,45 @@ export default function Experience() {
       onChange: (value) => setCameraMode(value),
     },
   });
+  const {
+    environmentPreset,
+    environmentBlur,
+    groundHeight,
+    groundRadius,
+    groundScale,
+  } = useControls("Environment", {
+    environmentPreset: {
+      value: "lobby",
+      options: [
+        "lobby",
+        "city",
+        "dawn",
+        "forest",
+        "night",
+        "park",
+        "studio",
+        "sunset",
+        "warehouse",
+      ],
+    },
+    environmentBlur: { value: 0.4, min: 0, max: 1, step: 0.01 },
+    groundHeight: { value: 300, min: 0, max: 1000, step: 10 },
+    groundRadius: { value: 100, min: 50, max: 1000, step: 10 },
+    groundScale: { value: 400, min: 100, max: 1000, step: 50 },
+  });
 
   return (
     <>
       <Perf position="top-left" />
+      {/* Contrôles pour l'environnement */}
 
-      <color attach="background" args={["#120118"]} />
+      <Environment
+        preset={environmentPreset}
+        blur={environmentBlur}
+        background
+      />
+
+      <color attach="background" args={["#FFC312"]} />
 
       {/* OrbitControls pour le mode contemplation */}
       {cameraMode === "orbit" && (
