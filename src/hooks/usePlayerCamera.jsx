@@ -10,24 +10,10 @@ export function usePlayerCamera() {
   );
   const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
 
-  const { moveDownV, moveUpV, moveDownT, moveUpT } = useControls({
-    moveDownV: {
-      value: 0.3,
-      step: 0.1,
-    },
-    moveUpV: {
-      value: -0.3,
-      step: 0.1,
-    },
-    moveDownT: {
-      value: 2,
-      step: 0.1,
-    },
-    moveUpT: {
-      value: 2,
-      step: 0.1,
-    },
-  });
+  const moveDownV = 0.3;
+  const moveUpV = -0.3;
+  const moveDownT = 2;
+  const moveUpT = 2;
 
   const updateCamera = (state, bodyPosition, fishQuaternion, keys) => {
     // Ne mettre à jour la caméra que si on est en mode third-person

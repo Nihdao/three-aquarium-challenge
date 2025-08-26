@@ -29,8 +29,8 @@ export default function Experience() {
   const { camera } = useThree();
 
   // Position par défaut pour la caméra orbit
-  const defaultOrbitPosition = [37.43, 101.23, 148.68];
-  const defaultOrbitTarget = [0, 25, 0];
+  const defaultOrbitPosition = [50, 120.23, 200.68];
+  const defaultOrbitTarget = [0, 75, 0];
 
   // Repositionner la caméra quand on passe en mode orbit
   useEffect(() => {
@@ -51,50 +51,20 @@ export default function Experience() {
       onChange: (value) => setCameraMode(value),
     },
   });
-  const {
-    environmentPreset,
-    environmentBlur,
-    groundHeight,
-    groundRadius,
-    groundScale,
-  } = useControls("Environment", {
-    environmentPreset: {
-      value: "lobby",
-      options: [
-        "lobby",
-        "city",
-        "dawn",
-        "forest",
-        "night",
-        "park",
-        "studio",
-        "sunset",
-        "warehouse",
-      ],
-    },
-    environmentBlur: { value: 0.4, min: 0, max: 1, step: 0.01 },
-    groundHeight: { value: 300, min: 0, max: 1000, step: 10 },
-    groundRadius: { value: 100, min: 50, max: 1000, step: 10 },
-    groundScale: { value: 400, min: 100, max: 1000, step: 50 },
-  });
 
   return (
     <>
       <Perf position="top-left" />
       {/* Contrôles pour l'environnement */}
 
-      <Environment
-        preset={environmentPreset}
-        blur={environmentBlur}
-        background
-      />
+      <Environment preset="lobby" blur={0.4} background />
 
       <color attach="background" args={["#FFC312"]} />
 
       {/* OrbitControls pour le mode contemplation */}
       {cameraMode === "orbit" && (
         <OrbitControls
-          position={[37.43, 101.23, 148.68]}
+          position={[37.43, 101.23, 200]}
           makeDefault
           enablePan={true}
           enableZoom={true}
@@ -102,6 +72,8 @@ export default function Experience() {
           minDistance={100}
           maxDistance={300}
           target={defaultOrbitTarget}
+          maxPolarAngle={Math.PI / 2}
+          minPolarAngle={0}
         />
       )}
 
