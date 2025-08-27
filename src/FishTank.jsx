@@ -3,7 +3,7 @@ import { RigidBody } from "@react-three/rapier";
 import { useEffect, useMemo } from "react";
 import * as THREE from "three";
 
-export default function FishTank() {
+export default function FishTank({ glassOpacity = 0.15 }) {
   const { nodes } = useGLTF("./assets/FishTankv4.glb");
   const fishTank_glass = useGLTF("./assets/FishTankv4_ft.glb");
   const texture = useTexture("./assets/baked4.jpg");
@@ -13,9 +13,37 @@ export default function FishTank() {
     return <meshBasicMaterial color="#ff0000" />;
   }, []);
 
-  const fishTankMaterial = useMemo(() => {
-    return <meshLambertMaterial color="#FFFFFF" opacity={0.2} transparent />;
-  }, []);
+  // Modifier les propriétés du matériau existant plutôt que de le remplacer
+  useEffect(() => {
+    if (fishTank_glass.nodes.FishTank) {
+      fishTank_glass.nodes.FishTank.traverse((child) => {
+        if (child.isMesh && child.material) {
+          // Préserver le matériau original mais ajuster les propriétés de transparence
+          const originalMaterial = child.material;
+
+          // Si c'est un tableau de matériaux
+          if (Array.isArray(originalMaterial)) {
+            originalMaterial.forEach((material) => {
+              material.transparent = true;
+              material.opacity = glassOpacity;
+              material.side = THREE.DoubleSide;
+              material.depthWrite = false;
+              material.needsUpdate = true;
+            });
+          } else {
+            // Si c'est un seul matériau
+            originalMaterial.transparent = true;
+            originalMaterial.opacity = glassOpacity;
+            originalMaterial.side = THREE.DoubleSide;
+            originalMaterial.depthWrite = false;
+            originalMaterial.needsUpdate = true;
+          }
+
+          child.renderOrder = 1; // Rendre après les objets opaques
+        }
+      });
+    }
+  }, [fishTank_glass, glassOpacity]);
 
   return (
     <RigidBody type="fixed" colliders="trimesh">

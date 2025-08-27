@@ -298,6 +298,15 @@ body,
   text-decoration: underline;
 }
 
+.credits-section code {
+  background: rgba(255, 255, 255, 0.1);
+  color: #93c5fd;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 0.8rem;
+}
+
 .credits-footer {
   text-align: center;
   padding-top: 1rem;

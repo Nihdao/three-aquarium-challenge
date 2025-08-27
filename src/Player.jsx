@@ -16,7 +16,10 @@ import { useHybridControls } from "./hooks/useHybridControls";
 import AttackHitbox from "./components/AttackHitbox";
 // import DebugMarker from "./components/DebugMarker";
 
-export default function Player() {
+export default function Player({
+  stabilizationStrength = 0.05,
+  enableStabilization = true,
+}) {
   const playerFish = useGLTF("./assets/MandarinFish.glb");
   const animations = useAnimations(playerFish.animations, playerFish.scene);
   const controls = useHybridControls();
@@ -79,6 +82,41 @@ export default function Player() {
       fishQuaternion
     );
     applyMovement(velocity, angularVelocity);
+
+    // Système de stabilisation pour éviter le désaxement
+    if (enableStabilization) {
+      const currentRotation = player.current.rotation();
+
+      // Créer un quaternion cible qui garde seulement la rotation Y (direction)
+      const targetQuaternion = new THREE.Quaternion();
+      const euler = new THREE.Euler();
+      euler.setFromQuaternion(fishQuaternion, "YXZ");
+
+      // Garder seulement la rotation Y, reset X et Z progressivement
+      const targetEuler = new THREE.Euler(
+        THREE.MathUtils.lerp(euler.x, 0, stabilizationStrength * 2), // Redresser X
+        euler.y, // Garder la direction Y
+        THREE.MathUtils.lerp(euler.z, 0, stabilizationStrength * 2), // Redresser Z
+        "YXZ"
+      );
+
+      targetQuaternion.setFromEuler(targetEuler);
+
+      // Appliquer le redressement seulement si le poisson n'est pas en mouvement rapide
+      const isMoving = Math.abs(velocity.x) > 0.1 || Math.abs(velocity.z) > 0.1;
+      if (!isMoving || !isAttacking) {
+        // Interpoler vers la rotation cible
+        const currentQuat = new THREE.Quaternion(
+          currentRotation.x,
+          currentRotation.y,
+          currentRotation.z,
+          currentRotation.w
+        );
+
+        currentQuat.slerp(targetQuaternion, stabilizationStrength);
+        player.current.setRotation(currentQuat, true);
+      }
+    }
 
     // Mise à jour de la caméra
     const bodyPosition = player.current.translation();

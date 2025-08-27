@@ -31,7 +31,7 @@ export function Credits() {
               <div className="credits-section">
                 <h3>🎓 Created for</h3>
                 <p>
-                  <strong>Bruno Simon's 19th ThreejsJourney Challenge</strong>
+                  <strong>Bruno Simon's 19th Three.js Journey Challenge</strong>
                   <br />
                   Theme: Aquarium
                 </p>
@@ -52,7 +52,17 @@ export function Credits() {
                     quaternius.com
                   </a>
                 </p>
-                <p>Others aquarium assets by me!</p>
+                <p>
+                  Others aquarium assets by me! <br />
+                  For the fish tank I have followed{" "}
+                  <a
+                    href="https://www.youtube.com/watch?v=rCDLsCOgu_E"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    this tutorial
+                  </a>
+                </p>
               </div>
 
               <div className="credits-section">
@@ -87,7 +97,26 @@ export function Credits() {
                   <li>AI fish with behavioral patterns</li>
                   <li>Water wave post-processing effects</li>
                   <li>Responsive touch controls</li>
+                  <li>
+                    Water surface with waves (thanks to Dan Greenheck's{" "}
+                    <a
+                      href="https://github.com/dgreenheck/threejs-water-shader"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      threejs-water-shader
+                    </a>
+                    )
+                  </li>
                 </ul>
+              </div>
+
+              <div className="credits-section">
+                <h3>🛠️ Debug Mode</h3>
+                <p>
+                  Add <strong>#debug</strong> to the URL to access performance
+                  and physics collider debug.
+                </p>
               </div>
 
               <div className="credits-footer">

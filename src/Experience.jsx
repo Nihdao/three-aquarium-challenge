@@ -3,6 +3,7 @@ import Lights from "./Lights.jsx";
 import Player from "./Player.jsx";
 import FishTank from "./FishTank.jsx";
 import NPCFish from "./NPCFish.jsx";
+import Water from "./Water.jsx";
 import { Physics } from "@react-three/rapier";
 import useGame from "./stores/useGame.jsx";
 import { useCameraStore } from "./stores/useCameraStore.jsx";
@@ -10,15 +11,17 @@ import { Perf } from "r3f-perf";
 import { EffectComposer } from "@react-three/postprocessing";
 import { WaterWaveEffect } from "./effects/WaterWaveEffect.jsx";
 import { DebugControls } from "./components/DebugControls.jsx";
+import { useDebugMode } from "./hooks/useDebugMode.jsx";
 import { useEffect } from "react";
 import { useThree } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 
 export default function Experience() {
   const { cameraMode } = useCameraStore();
+  const isDebugMode = useDebugMode();
 
   // Utilisation du composant DebugControls centralisé
-  const { waterEffects } = DebugControls();
+  const { waterEffects, waterSurface, aquarium } = DebugControls();
   const { enableWaves, waveStrength, waterColorIntensity, waterColor } =
     waterEffects;
 
@@ -38,7 +41,8 @@ export default function Experience() {
 
   return (
     <>
-      <Perf position="bottom-right" />
+      {/* Afficher Perf seulement en mode debug */}
+      {isDebugMode && <Perf position="bottom-right" />}
       {/* Contrôles pour l'environnement */}
 
       <Environment preset="lobby" blur={0.4} background />
@@ -61,10 +65,10 @@ export default function Experience() {
         />
       )}
 
-      <Physics gravity={[0, -1, 0]}>
+      <Physics gravity={[0, -1, 0]} debug={isDebugMode}>
         <Lights />
-        <FishTank />
-        <Player />
+        <FishTank glassOpacity={aquarium.glassOpacity} />
+        <Player stabilizationStrength={0.2} enableStabilization={true} />
 
         {/* NPCs Fish */}
         <NPCFish
@@ -80,6 +84,21 @@ export default function Experience() {
           pattern="figure8"
           scale={2}
           speed={1.2}
+        />
+
+        {/* Surface de l'eau */}
+        <Water
+          position={waterSurface.position}
+          sizeX={waterSurface.sizeX}
+          sizeZ={waterSurface.sizeZ}
+          segments={512}
+          {...waterSurface}
+          // Conversion des couleurs hex vers array RGB
+          peakColor={[
+            parseInt(waterSurface.peakColor.slice(1, 3), 16) / 255,
+            parseInt(waterSurface.peakColor.slice(3, 5), 16) / 255,
+            parseInt(waterSurface.peakColor.slice(5, 7), 16) / 255,
+          ]}
         />
       </Physics>
 
