@@ -13,7 +13,6 @@ export default function NPCFish({
 }) {
   const fish = useGLTF(fishType);
   const animations = useAnimations(fish.animations, fish.scene);
-  console.log(animations);
   const fishRef = useRef();
   const timeRef = useRef(0);
 

@@ -1,6 +1,7 @@
 import { useKeyboardControls } from "@react-three/drei";
 import { useEffect, useState } from "react";
 import { useControlsStore } from "./stores/useControlsStore.jsx";
+import { Credits } from "./components/Credits.jsx";
 
 export function Interface() {
   const [isMobile, setIsMobile] = useState(false);
@@ -39,10 +40,13 @@ export function Interface() {
 
   return (
     <div className="interface">
+      {/* Credits Button */}
+      <Credits />
+
       {/* Fish Controls Legend - Desktop */}
       {!isMobile && (
         <div className="fish-controls-legend">
-          <div className="legend-title">Navigation</div>
+          <div className="legend-title">Fish Controls</div>
           <div className="legend-item">
             <span className="key-hint">WASD / Arrows</span>
             <span className="action">Move</span>

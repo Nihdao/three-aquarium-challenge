@@ -27,9 +27,9 @@ body,
   position: absolute;
   bottom: 2rem;
   left: 2rem;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   padding: 1rem 1.25rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -109,15 +109,15 @@ body,
 }
 
 .control-btn {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border: none;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.5rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -144,9 +144,171 @@ body,
 
 .control-btn.swim-up,
 .control-btn.swim-down {
-  width: 42px;
-  height: 42px;
+  width: 50px;
+  height: 50px;
+  font-size: 1.25rem;
+}
+
+/**
+ * Credits Component
+ */
+.credits-button {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  z-index: 1000;
+  text-transform: uppercase;
+}
+
+.credits-button:hover {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.credits-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  pointer-events: auto;
+}
+
+.credits-modal {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 650px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  margin: 1rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.credits-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1rem;
+}
+
+.credits-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 1);
+}
+
+.credits-content {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.credits-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 1);
+}
+
+.credits-section {
+  margin-bottom: 1.5rem;
+}
+
+.credits-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.credits-section p {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.credits-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.credits-section li {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+  color: rgba(255, 255, 255, 0.8);
+  padding-left: 1rem;
+  position: relative;
+}
+
+.credits-section li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.credits-section a {
+  color: #60a5fa;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.credits-section a:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+.credits-footer {
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1.5rem;
+}
+
+.credits-footer p {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
 }
 
 /* Responsive adjustments */
@@ -164,14 +326,32 @@ body,
   }
 
   .control-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 1.125rem;
+    width: 52px;
+    height: 52px;
+    font-size: 1.375rem;
   }
 
   .control-btn.swim-up,
   .control-btn.swim-down {
-    width: 38px;
-    height: 38px;
+    width: 46px;
+    height: 46px;
+    font-size: 1.125rem;
+  }
+
+  .credits-button {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.6875rem;
+  }
+
+  .credits-modal {
+    padding: 1.5rem;
+    margin: 0.5rem;
+    max-height: 90vh;
+  }
+
+  .credits-title {
+    font-size: 1.5rem;
   }
 }

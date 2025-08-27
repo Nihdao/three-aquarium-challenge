@@ -7,26 +7,20 @@ import { Physics } from "@react-three/rapier";
 import useGame from "./stores/useGame.jsx";
 import { useCameraStore } from "./stores/useCameraStore.jsx";
 import { Perf } from "r3f-perf";
-import { useControls } from "leva";
 import { EffectComposer } from "@react-three/postprocessing";
 import { WaterWaveEffect } from "./effects/WaterWaveEffect.jsx";
+import { DebugControls } from "./components/DebugControls.jsx";
 import { useEffect } from "react";
 import { useThree } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 
 export default function Experience() {
-  const { cameraMode, setCameraMode } = useCameraStore();
+  const { cameraMode } = useCameraStore();
 
-  // Contrôles pour l'effet d'ondulation
-  const { waveStrength, enableWaves, blueIntensity, waterColor } = useControls(
-    "Water Effects",
-    {
-      enableWaves: true,
-      waveStrength: { value: 1.2, min: 0, max: 2, step: 0.1 },
-      blueIntensity: { value: 0.4, min: 0, max: 1, step: 0.05 },
-      waterColor: { value: "#a9cbff" },
-    }
-  );
+  // Utilisation du composant DebugControls centralisé
+  const { waterEffects } = DebugControls();
+  const { enableWaves, waveStrength, blueIntensity, waterColor } = waterEffects;
+
   const { camera } = useThree();
 
   // Position par défaut pour la caméra orbit
@@ -41,21 +35,9 @@ export default function Experience() {
     }
   }, [cameraMode, camera]);
 
-  // Contrôles Leva pour switcher entre les modes caméraz
-  useControls("Point of View", {
-    POV: {
-      value: cameraMode,
-      options: {
-        Fish: "third-person",
-        Contemplation: "orbit",
-      },
-      onChange: (value) => setCameraMode(value),
-    },
-  });
-
   return (
     <>
-      <Perf position="top-left" />
+      <Perf position="bottom-right" />
       {/* Contrôles pour l'environnement */}
 
       <Environment preset="lobby" blur={0.4} background />
