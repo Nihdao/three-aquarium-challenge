@@ -168,6 +168,10 @@ body,
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: all 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   display: flex;
   align-items: center;
   justify-content: center;
