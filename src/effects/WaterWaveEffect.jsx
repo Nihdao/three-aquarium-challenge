@@ -6,7 +6,7 @@ import { useFrame } from "@react-three/fiber";
 const fragmentShader = /* glsl */ `
 uniform float time;
 uniform float strength;
-uniform float blueIntensity;
+uniform float waterColorIntensity;
 uniform vec3 waterColor;
 
 void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
@@ -26,14 +26,14 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
   
   // Appliquer le filtre bleu de l'eau
   // Mélanger avec la couleur de l'eau basé sur l'intensité
-  vec3 finalColor = mix(distortedColor.rgb, distortedColor.rgb * waterColor, blueIntensity);
+  vec3 finalColor = mix(distortedColor.rgb, distortedColor.rgb * waterColor, waterColorIntensity);
   
   // Légère désaturation pour un effet plus réaliste
   float luminance = dot(finalColor, vec3(0.299, 0.587, 0.114));
   finalColor = mix(finalColor, vec3(luminance), 0.1);
   
   // Ajouter une légère teinte bleue globale
-  finalColor = mix(finalColor, waterColor, blueIntensity * 0.2);
+  finalColor = mix(finalColor, waterColor, waterColorIntensity * 0.2);
   
   outputColor = vec4(finalColor, distortedColor.a);
 }
@@ -42,14 +42,14 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
 class WaterWaveEffectImpl extends Effect {
   constructor({
     strength = 1.0,
-    blueIntensity = 0.3,
+    waterColorIntensity = 0.3,
     waterColor = [0.663, 0.796, 1.0],
   } = {}) {
     super("WaterWaveEffect", fragmentShader, {
       uniforms: new Map([
         ["time", new Uniform(0)],
         ["strength", new Uniform(strength)],
-        ["blueIntensity", new Uniform(blueIntensity)],
+        ["waterColorIntensity", new Uniform(waterColorIntensity)],
         ["waterColor", new Uniform(waterColor)],
       ]),
     });
@@ -58,12 +58,17 @@ class WaterWaveEffectImpl extends Effect {
 
 export const WaterWaveEffect = forwardRef(
   (
-    { strength = 1.0, blueIntensity = 0.3, waterColor = [0.663, 0.796, 1.0] },
+    {
+      strength = 1.0,
+      waterColorIntensity = 0.3,
+      waterColor = [0.663, 0.796, 1.0],
+    },
     ref
   ) => {
     const effect = useMemo(
-      () => new WaterWaveEffectImpl({ strength, blueIntensity, waterColor }),
-      [strength, blueIntensity, waterColor]
+      () =>
+        new WaterWaveEffectImpl({ strength, waterColorIntensity, waterColor }),
+      [strength, waterColorIntensity, waterColor]
     );
 
     useFrame((state) => {

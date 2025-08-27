@@ -19,7 +19,8 @@ export default function Experience() {
 
   // Utilisation du composant DebugControls centralisé
   const { waterEffects } = DebugControls();
-  const { enableWaves, waveStrength, blueIntensity, waterColor } = waterEffects;
+  const { enableWaves, waveStrength, waterColorIntensity, waterColor } =
+    waterEffects;
 
   const { camera } = useThree();
 
@@ -87,7 +88,7 @@ export default function Experience() {
         <EffectComposer>
           <WaterWaveEffect
             strength={waveStrength}
-            blueIntensity={blueIntensity}
+            waterColorIntensity={waterColorIntensity}
             waterColor={[
               parseInt(waterColor.slice(1, 3), 16) / 255,
               parseInt(waterColor.slice(3, 5), 16) / 255,
