@@ -1,67 +1,130 @@
 import { useKeyboardControls } from "@react-three/drei";
-import useGame from "./stores/useGame.jsx";
-import { useRef, useEffect } from "react";
-import { addEffect } from "@react-three/fiber";
+import { useEffect, useState } from "react";
+import { useControlsStore } from "./stores/useControlsStore.jsx";
 
 export function Interface() {
-  const restart = useGame((state) => state.restart);
-  const phase = useGame((state) => state.phase);
-  const timeRef = useRef();
-  const forward = useKeyboardControls((state) => state.moveForward);
-  const backward = useKeyboardControls((state) => state.moveBackward);
-  const leftward = useKeyboardControls((state) => state.moveLeft);
-  const rightward = useKeyboardControls((state) => state.moveRight);
-  const jump = useKeyboardControls((state) => state.jump);
+  const [isMobile, setIsMobile] = useState(false);
 
+  // États des contrôles depuis le store
+  const {
+    moveForward,
+    moveBackward,
+    moveLeft,
+    moveRight,
+    moveUp,
+    moveDown,
+    setControl,
+  } = useControlsStore();
+
+  // Handlers pour les contrôles tactiles
+  const handleTouchStart = (action) => {
+    setControl(action, true);
+  };
+
+  const handleTouchEnd = (action) => {
+    setControl(action, false);
+  };
+
+  // Détecter si on est sur mobile
   useEffect(() => {
-    const unsubscribeEffect = addEffect(() => {
-      const state = useGame.getState();
-
-      let elapsedTime = 0;
-
-      if (state.phase === "playing") {
-        elapsedTime = Date.now() - state.startTime;
-      } else if (state.phase === "ended") {
-        elapsedTime = state.endTime - state.startTime;
-      }
-      if (timeRef.current) {
-        timeRef.current.textContent = (elapsedTime / 1000).toFixed(2);
-      }
-    });
-
-    return () => {
-      unsubscribeEffect();
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 1000);
     };
-  }, [phase]);
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <div className="interface">
-      {/* Time */}
-      <div className="time" ref={timeRef}>
-        0.00
-      </div>
-
-      {/* Restart */}
-      {phase === "ended" && (
-        <div className="restart" onClick={restart}>
-          Restart
+      {/* Fish Controls Legend - Desktop */}
+      {!isMobile && (
+        <div className="fish-controls-legend">
+          <div className="legend-title">Navigation</div>
+          <div className="legend-item">
+            <span className="key-hint">WASD / Arrows</span>
+            <span className="action">Move</span>
+          </div>
+          <div className="legend-item">
+            <span className="key-hint">Space / C</span>
+            <span className="action">Up / Down</span>
+          </div>
         </div>
       )}
 
-      {/* Controls */}
-      <div className="controls">
-        <div className="raw">
-          <div className={`key ${forward ? "active" : ""}`}></div>
+      {/* Mobile Touch Controls */}
+      {isMobile && (
+        <div className="mobile-controls">
+          <div className="direction-pad">
+            <button
+              className={`control-btn up ${moveForward ? "active" : ""}`}
+              onTouchStart={() => handleTouchStart("moveForward")}
+              onTouchEnd={() => handleTouchEnd("moveForward")}
+              onMouseDown={() => handleTouchStart("moveForward")}
+              onMouseUp={() => handleTouchEnd("moveForward")}
+              onMouseLeave={() => handleTouchEnd("moveForward")}
+            >
+              ↑
+            </button>
+            <div className="middle-row">
+              <button
+                className={`control-btn left ${moveLeft ? "active" : ""}`}
+                onTouchStart={() => handleTouchStart("moveLeft")}
+                onTouchEnd={() => handleTouchEnd("moveLeft")}
+                onMouseDown={() => handleTouchStart("moveLeft")}
+                onMouseUp={() => handleTouchEnd("moveLeft")}
+                onMouseLeave={() => handleTouchEnd("moveLeft")}
+              >
+                ←
+              </button>
+              <button
+                className={`control-btn down ${moveBackward ? "active" : ""}`}
+                onTouchStart={() => handleTouchStart("moveBackward")}
+                onTouchEnd={() => handleTouchEnd("moveBackward")}
+                onMouseDown={() => handleTouchStart("moveBackward")}
+                onMouseUp={() => handleTouchEnd("moveBackward")}
+                onMouseLeave={() => handleTouchEnd("moveBackward")}
+              >
+                ↓
+              </button>
+              <button
+                className={`control-btn right ${moveRight ? "active" : ""}`}
+                onTouchStart={() => handleTouchStart("moveRight")}
+                onTouchEnd={() => handleTouchEnd("moveRight")}
+                onMouseDown={() => handleTouchStart("moveRight")}
+                onMouseUp={() => handleTouchEnd("moveRight")}
+                onMouseLeave={() => handleTouchEnd("moveRight")}
+              >
+                →
+              </button>
+            </div>
+          </div>
+          <div className="vertical-controls">
+            <button
+              className={`control-btn swim-up ${moveUp ? "active" : ""}`}
+              onTouchStart={() => handleTouchStart("moveUp")}
+              onTouchEnd={() => handleTouchEnd("moveUp")}
+              onMouseDown={() => handleTouchStart("moveUp")}
+              onMouseUp={() => handleTouchEnd("moveUp")}
+              onMouseLeave={() => handleTouchEnd("moveUp")}
+            >
+              ↗
+            </button>
+            <button
+              className={`control-btn swim-down ${moveDown ? "active" : ""}`}
+              onTouchStart={() => handleTouchStart("moveDown")}
+              onTouchEnd={() => handleTouchEnd("moveDown")}
+              onMouseDown={() => handleTouchStart("moveDown")}
+              onMouseUp={() => handleTouchEnd("moveDown")}
+              onMouseLeave={() => handleTouchEnd("moveDown")}
+            >
+              ↘
+            </button>
+          </div>
         </div>
-        <div className="raw">
-          <div className={`key ${leftward ? "active" : ""}`}></div>
-          <div className={`key ${backward ? "active" : ""}`}></div>
-          <div className={`key ${rightward ? "active" : ""}`}></div>
-        </div>
-        <div className="raw">
-          <div className={`key large ${jump ? "active" : ""}`}></div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 export function usePlayerMovement(player, isAttacking) {
-  const swimStrength = 10.0;
+  const swimStrength = 20.0;
   const turnStrength = 2.0;
   const floatStrength = 10.0;
 

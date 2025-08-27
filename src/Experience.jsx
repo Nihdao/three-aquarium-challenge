@@ -2,6 +2,7 @@ import { OrbitControls } from "@react-three/drei";
 import Lights from "./Lights.jsx";
 import Player from "./Player.jsx";
 import FishTank from "./FishTank.jsx";
+import NPCFish from "./NPCFish.jsx";
 import { Physics } from "@react-three/rapier";
 import useGame from "./stores/useGame.jsx";
 import { useCameraStore } from "./stores/useCameraStore.jsx";
@@ -81,6 +82,22 @@ export default function Experience() {
         <Lights />
         <FishTank />
         <Player />
+
+        {/* NPCs Fish */}
+        <NPCFish
+          fishType="./assets/Goldfish.glb"
+          position={[60, 75, 10]}
+          pattern="circular"
+          scale={2.5}
+          speed={0.8}
+        />
+        <NPCFish
+          fishType="./assets/ButterflyFish.glb"
+          position={[-40, 100, 20]}
+          pattern="figure8"
+          scale={2}
+          speed={1.2}
+        />
       </Physics>
 
       {/* Post-processing avec effet d'ondulation uniquement en mode poisson */}

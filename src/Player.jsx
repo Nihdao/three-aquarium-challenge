@@ -1,7 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import { useAnimations } from "@react-three/drei";
-import { useKeyboardControls } from "@react-three/drei";
 import { RigidBody, useRapier, CuboidCollider } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
@@ -11,6 +10,7 @@ import { usePlayerAttack } from "./hooks/usePlayerAttack";
 import { usePlayerMovement } from "./hooks/usePlayerMovement";
 import { usePlayerCamera } from "./hooks/usePlayerCamera";
 import { usePlayerAnimations } from "./hooks/usePlayerAnimations";
+import { useHybridControls } from "./hooks/useHybridControls";
 
 // Composants
 import AttackHitbox from "./components/AttackHitbox";
@@ -19,7 +19,7 @@ import AttackHitbox from "./components/AttackHitbox";
 export default function Player() {
   const playerFish = useGLTF("./assets/MandarinFish.glb");
   const animations = useAnimations(playerFish.animations, playerFish.scene);
-  const [subscribedKeys, getKeys] = useKeyboardControls();
+  const controls = useHybridControls();
   const player = useRef();
   const { rapier, world } = useRapier();
 
@@ -53,8 +53,8 @@ export default function Player() {
   useFrame((state, delta) => {
     if (!player.current) return;
 
-    // Récupération des contrôles
-    const keys = getKeys();
+    // Récupération des contrôles hybrides (clavier + tactile)
+    const keys = controls;
 
     // Gestion de l'attaque
     if (keys.action) {
