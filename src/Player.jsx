@@ -131,7 +131,7 @@ export default function Player({
         mass={1}
         colliders={false}
       >
-        <CuboidCollider args={[1, 0.8, 1]} position={[0, 0, 0]} />
+        <CuboidCollider args={[1.5, 1.5, 6]} position={[0, 0, -2]} />
         <primitive object={playerFish.scene} scale={3} position={[0, 0, 0]} />
 
         {/* Hitbox d'attaque */}

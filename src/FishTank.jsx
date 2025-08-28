@@ -5,7 +5,7 @@ import * as THREE from "three";
 
 export default function FishTank({ glassOpacity = 0.15 }) {
   const { nodes } = useGLTF("./assets/FishTankv4.glb");
-  const fishTank_glass = useGLTF("./assets/FishTankv4_ft.glb");
+  const fishTank_glass = useGLTF("./assets/FishTankv5_ft.glb");
   const texture = useTexture("./assets/baked4.jpg");
   texture.flipY = false;
 

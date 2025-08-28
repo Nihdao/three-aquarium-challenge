@@ -35,9 +35,9 @@ export function DebugControls() {
     "Water Surface",
     {
       // Paramètres de taille
-      sizeX: { value: 158, min: 50, max: 800, step: 10 },
+      sizeX: { value: 159, min: 50, max: 800, step: 10 },
       sizeZ: { value: 59, min: 50, max: 800, step: 10 },
-      position: { value: [7, 125, 18], min: -1000, max: 1000, step: 10 },
+      position: { value: [8, 125, 18], min: -1000, max: 1000, step: 10 },
 
       // Paramètres des vagues
       wavesAmplitude: { value: 1.4, min: 0, max: 10, step: 0.1 },
@@ -48,14 +48,14 @@ export function DebugControls() {
       wavesIterations: { value: 3.0, min: 1, max: 8, step: 1 },
 
       // Couleurs
-      peakColor: { value: "#7bcbfc" },
+      peakColor: { value: "#e1f6fc" },
 
       // Fresnel
       fresnelScale: { value: 0.5, min: 0, max: 2, step: 0.05 },
       fresnelPower: { value: 2.0, min: 0.5, max: 5, step: 0.1 },
 
       // Général
-      opacity: { value: 0.4, min: 0.1, max: 1, step: 0.05 },
+      opacity: { value: 0.4, min: 0, max: 1, step: 0.05 },
     },
     { collapsed: !isDebugMode }
   );
@@ -64,7 +64,7 @@ export function DebugControls() {
   const aquarium = useControls(
     "Aquarium",
     {
-      glassOpacity: { value: 0.15, min: 0, max: 1, step: 0.05 },
+      glassOpacity: { value: 1, min: 0, max: 1, step: 0.05 },
     },
     { collapsed: !isDebugMode }
   );
