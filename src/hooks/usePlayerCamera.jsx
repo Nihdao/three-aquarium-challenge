@@ -6,9 +6,9 @@ import { useCameraStore } from "../stores/useCameraStore.jsx";
 export function usePlayerCamera() {
   const { cameraMode } = useCameraStore();
   const [smoothedCameraPosition] = useState(
-    () => new THREE.Vector3(10, 10, 10)
+    () => new THREE.Vector3(0, 80, -20)
   );
-  const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
+  const [smoothedCameraTarget] = useState(() => new THREE.Vector3(0, 75, 0));
 
   const moveDownV = 0.3;
   const moveUpV = -0.3;
@@ -44,8 +44,8 @@ export function usePlayerCamera() {
     cameraTarget.y += moveUp ? moveUpT : moveDown ? moveDownT : 0.25;
 
     // Smooth camera movement
-    smoothedCameraPosition.lerp(cameraPosition, 0.05);
-    smoothedCameraTarget.lerp(cameraTarget, 0.05);
+    smoothedCameraPosition.lerp(cameraPosition, 0.15);
+    smoothedCameraTarget.lerp(cameraTarget, 0.15);
 
     state.camera.position.copy(smoothedCameraPosition);
     state.camera.lookAt(smoothedCameraTarget);

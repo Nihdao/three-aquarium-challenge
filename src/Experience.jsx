@@ -31,11 +31,15 @@ export default function Experience() {
   const defaultOrbitPosition = [50, 120.23, 200.68];
   const defaultOrbitTarget = [0, 75, 0];
 
-  // Repositionner la caméra quand on passe en mode orbit
+  // Repositionner la caméra quand on change de mode
   useEffect(() => {
     if (cameraMode === "orbit") {
       camera.position.set(...defaultOrbitPosition);
       camera.lookAt(...defaultOrbitTarget);
+    } else if (cameraMode === "third-person") {
+      // Position initiale plus proche du poisson
+      camera.position.set(0, 80, -15);
+      camera.lookAt(0, 75, 0);
     }
   }, [cameraMode, camera]);
 
