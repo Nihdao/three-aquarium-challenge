@@ -2,17 +2,16 @@
 
 > **🏆 3rd Place Winner** of [Bruno Simon's 19th Three.js Journey Challenge](https://threejs-journey.com/challenges/019-aquarium) - Aquarium Theme
 
-An immersive 3D aquarium experience where you can swim as a fish and interact with AI-powered marine life. Dive into a realistic underwater world with physics-based swimming, dynamic water effects, and intelligent fish behavior.
+An immersive 3D aquarium experience where you can swim as a fish. Dive into a realistic underwater world with physics-based swimming and dynamic water effects.
 
 ## ✨ Features
 
 - 🐟 **Immersive Fish POV Camera** - Experience the aquarium from a fish's perspective
 - 🏊 **Physics-Based Swimming** - Realistic movement with React Three Rapier
-- 🤖 **AI Fish with Behavioral Patterns** - Intelligent NPC fish with autonomous behavior
+- 🤖 **NPC Fishes with Behavioral Patterns** - NPC fishes with autonomous behavior
 - 🌊 **Water Wave Post-Processing Effects** - Dynamic water surface with realistic waves
 - 📱 **Responsive Touch Controls** - Works seamlessly on desktop and mobile
 - 🎮 **Interactive Controls** - WASD/Arrow keys for movement, Space/C for vertical swimming
-- 🐠 **Multiple Fish Species** - Various fish models with unique characteristics
 
 ## 🛠️ Built With
 
@@ -63,10 +62,6 @@ Add `#debug` to the URL to access:
 ## 🌊 Water Shader
 
 Special thanks to [Dan Greenheck's threejs-water-shader](https://github.com/dgreenheck/threejs-water-shader) for the realistic water surface effects.
-
-## 🏆 Challenge Results
-
-This project secured **3rd place** in the Three.js Journey Challenge #019, competing against 47,058+ students worldwide. The challenge focused on creating innovative aquarium experiences using Three.js.
 
 ## 📄 License
 
