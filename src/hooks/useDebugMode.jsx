@@ -8,10 +8,10 @@ export function useDebugMode() {
       setIsDebugMode(window.location.hash.includes("#debug"));
     };
 
-    // Vérifier au chargement initial
+    // Check at initial load
     checkDebugMode();
 
-    // Écouter les changements de hash
+    // Listen for hash changes
     window.addEventListener("hashchange", checkDebugMode);
 
     return () => {

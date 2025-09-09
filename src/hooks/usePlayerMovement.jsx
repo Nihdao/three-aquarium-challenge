@@ -17,31 +17,31 @@ export function usePlayerMovement(player, isAttacking) {
     }
 
     if (moveForward) {
-      // Mouvement vers l'avant dans la direction locale du poisson
+      // Movement forward in the local direction of the fish
       const forwardDirection = new THREE.Vector3(0, 0, swimStrength);
       forwardDirection.applyQuaternion(fishQuaternion);
       velocity.add(forwardDirection);
     }
     if (moveBackward) {
-      // Mouvement vers l'arrière dans la direction locale du poisson
+      // Movement backward in the local direction of the fish
       const backwardDirection = new THREE.Vector3(0, 0, -swimStrength);
       backwardDirection.applyQuaternion(fishQuaternion);
       velocity.add(backwardDirection);
     }
     if (moveLeft) {
-      // Rotation sur l'axe Y pour tourner à gauche
+      // Rotation on the Y axis to turn left
       angularVelocity.y += turnStrength;
     }
     if (moveRight) {
-      // Rotation sur l'axe Y pour tourner à droite
+      // Rotation on the Y axis to turn right
       angularVelocity.y -= turnStrength;
     }
     if (moveUp) {
-      // Mouvement vers le haut (toujours dans l'axe monde Y)
+      // Movement up (always in the world Y axis)
       velocity.y += floatStrength;
     }
     if (moveDown) {
-      // Mouvement vers le bas (toujours dans l'axe monde Y)
+      // Movement down (always in the world Y axis)
       velocity.y -= floatStrength;
     }
 

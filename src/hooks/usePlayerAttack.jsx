@@ -11,25 +11,25 @@ export function usePlayerAttack(animations) {
     setIsAttacking(true);
     setAttackCooldown(true);
 
-    // Lancer l'animation d'attaque
+    // Launch the attack animation
     const attackAction = animations.actions["Fish_Armature|Attack"];
     if (attackAction) {
-      // Arrêter les autres animations
+      // Stop the other animations
       Object.values(animations.actions).forEach((anim) => anim.fadeOut(0.1));
       attackAction.reset().fadeIn(0.1).play();
       attackAction.setLoop(THREE.LoopOnce);
       attackAction.clampWhenFinished = true;
 
-      // Finir l'attaque après la durée de l'animation
+      // Finish the attack after the animation duration
       setTimeout(() => {
         setIsAttacking(false);
         attackAction.fadeOut(0.3);
-      }, 400); // Durée de l'animation d'attaque
+      }, 400); // Attack animation duration
 
-      // Cooldown de l'attaque
+      // Attack cooldown
       setTimeout(() => {
         setAttackCooldown(false);
-      }, 800); // Cooldown total
+      }, 800); // Total cooldown
     }
 
     return true;

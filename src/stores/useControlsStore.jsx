@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 export const useControlsStore = create((set) => ({
-  // États des contrôles
+  // Controls states
   moveForward: false,
   moveBackward: false,
   moveLeft: false,
@@ -10,7 +10,7 @@ export const useControlsStore = create((set) => ({
   moveDown: false,
   swimFast: false,
 
-  // Actions pour modifier les états
+  // Actions to modify the states
   setMoveForward: (value) => set({ moveForward: value }),
   setMoveBackward: (value) => set({ moveBackward: value }),
   setMoveLeft: (value) => set({ moveLeft: value }),
@@ -19,6 +19,6 @@ export const useControlsStore = create((set) => ({
   setMoveDown: (value) => set({ moveDown: value }),
   setSwimFast: (value) => set({ swimFast: value }),
 
-  // Action générique pour les contrôles tactiles
+  // Generic action for touch controls
   setControl: (controlName, value) => set({ [controlName]: value }),
 }));

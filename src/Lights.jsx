@@ -9,10 +9,10 @@ export default function Lights() {
   const rectLightRef = useRef();
   const helperRef = useRef();
 
-  // Initialiser les uniformes pour RectAreaLight
+  // Initialize the uniforms for RectAreaLight
   RectAreaLightUniformsLib.init();
 
-  // Créer le helper quand la lumière est montée
+  // Create the helper when the light is up
   useEffect(() => {
     if (rectLightRef.current && helperRef.current) {
       const helper = new RectAreaLightHelper(rectLightRef.current);
@@ -40,7 +40,7 @@ export default function Lights() {
       /> */}
       <ambientLight intensity={2.5} color="#ffffff" />
 
-      {/* RectAreaLight violet dirigé vers le bas */}
+      {/* RectAreaLight violet directed towards the bottom */}
       {/* <rectAreaLight
         ref={rectLightRef}
         color="#fdf8ff"
@@ -51,7 +51,7 @@ export default function Lights() {
         rotation={[-Math.PI / 2, 0, 0]}
       /> */}
 
-      {/* Helper pour visualiser le RectAreaLight */}
+      {/* Helper to visualize the RectAreaLight */}
       <group ref={helperRef} />
     </>
   );

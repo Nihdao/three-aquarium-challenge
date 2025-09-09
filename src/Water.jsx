@@ -5,17 +5,17 @@ import * as THREE from "three";
 import vertexShader from "./shaders/waves/vertex.glsl?raw";
 import fragmentShader from "./shaders/waves/fragment.glsl?raw";
 
-// Extension du matériau personnalisé
+// Extension of the custom material
 extend({ ShaderMaterial: THREE.ShaderMaterial });
 
 export default function Water({
-  // Paramètres de position et taille
+  // Parameters of position and size
   position = [0, 125, -50],
   sizeX = 160,
   sizeZ = 50,
   segments = 512,
 
-  // Paramètres des vagues (contrôlés par Leva)
+  // Parameters of the waves (controlled by Leva)
   wavesAmplitude = 2.0,
   wavesSpeed = 0.5,
   wavesFrequency = 0.02,
@@ -23,38 +23,38 @@ export default function Water({
   wavesLacunarity = 2.0,
   wavesIterations = 3.0,
 
-  // Paramètres de couleur (contrôlés par Leva)
+  // Parameters of the color (controlled by Leva)
   troughColor = [0.1, 0.3, 0.5],
   surfaceColor = [0.2, 0.5, 0.8],
   peakColor = [0.4, 0.7, 1.0],
 
-  // Paramètres de transition (contrôlés par Leva)
+  // Parameters of the transition (controlled by Leva)
   peakThreshold = 1.0,
   peakTransition = 0.5,
   troughThreshold = -1.0,
   troughTransition = 0.5,
 
-  // Paramètres Fresnel (contrôlés par Leva)
+  // Parameters Fresnel (controlled by Leva)
   fresnelScale = 0.5,
   fresnelPower = 2.0,
 
-  // Paramètres généraux
+  // General parameters
   opacity = 0.8,
 }) {
   const meshRef = useRef();
   const { scene } = useThree();
 
-  // Création de la géométrie plane
+  // Creation of the plane geometry
   const geometry = useMemo(() => {
     return new THREE.PlaneGeometry(sizeX, sizeZ, segments, segments);
   }, [sizeX, sizeZ, segments]);
 
-  // Uniforms pour le shader
+  // Uniforms for the shader
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
 
-      // Paramètres des vagues
+      // Parameters of the waves
       uWavesAmplitude: { value: wavesAmplitude },
       uWavesSpeed: { value: wavesSpeed },
       uWavesFrequency: { value: wavesFrequency },
@@ -62,25 +62,25 @@ export default function Water({
       uWavesLacunarity: { value: wavesLacunarity },
       uWavesIterations: { value: wavesIterations },
 
-      // Paramètres de couleur
+      // Parameters of the color
       uTroughColor: { value: new THREE.Vector3(...troughColor) },
       uSurfaceColor: { value: new THREE.Vector3(...surfaceColor) },
       uPeakColor: { value: new THREE.Vector3(...peakColor) },
 
-      // Paramètres de transition
+      // Parameters of the transition
       uPeakThreshold: { value: peakThreshold },
       uPeakTransition: { value: peakTransition },
       uTroughThreshold: { value: troughThreshold },
       uTroughTransition: { value: troughTransition },
 
-      // Paramètres Fresnel
+      // Parameters Fresnel
       uFresnelScale: { value: fresnelScale },
       uFresnelPower: { value: fresnelPower },
 
-      // Environment map (sera défini plus tard)
+      // Environment map (will be defined later)
       uEnvironmentMap: { value: null },
 
-      // Opacité
+      // Opacity
       uOpacity: { value: opacity },
     }),
     [
@@ -103,7 +103,7 @@ export default function Water({
     ]
   );
 
-  // Création du matériau shader
+  // Creation of the shader material
   const material = useMemo(() => {
     return new THREE.ShaderMaterial({
       vertexShader,
@@ -114,12 +114,12 @@ export default function Water({
     });
   }, [uniforms]);
 
-  // Mise à jour des uniforms en temps réel
+  // Update of the uniforms in real time
   useFrame((state) => {
     if (material.uniforms) {
       material.uniforms.uTime.value = state.clock.elapsedTime;
 
-      // Mise à jour des paramètres de vagues
+      // Update of the parameters of the waves
       material.uniforms.uWavesAmplitude.value = wavesAmplitude;
       material.uniforms.uWavesSpeed.value = wavesSpeed;
       material.uniforms.uWavesFrequency.value = wavesFrequency;
@@ -127,25 +127,25 @@ export default function Water({
       material.uniforms.uWavesLacunarity.value = wavesLacunarity;
       material.uniforms.uWavesIterations.value = wavesIterations;
 
-      // Mise à jour des couleurs
+      // Update of the colors
       material.uniforms.uTroughColor.value.set(...troughColor);
       material.uniforms.uSurfaceColor.value.set(...surfaceColor);
       material.uniforms.uPeakColor.value.set(...peakColor);
 
-      // Mise à jour des transitions
+      // Update of the transitions
       material.uniforms.uPeakThreshold.value = peakThreshold;
       material.uniforms.uPeakTransition.value = peakTransition;
       material.uniforms.uTroughThreshold.value = troughThreshold;
       material.uniforms.uTroughTransition.value = troughTransition;
 
-      // Mise à jour Fresnel
+      // Update of Fresnel
       material.uniforms.uFresnelScale.value = fresnelScale;
       material.uniforms.uFresnelPower.value = fresnelPower;
 
-      // Mise à jour opacité
+      // Update of opacity
       material.uniforms.uOpacity.value = opacity;
 
-      // Mise à jour de l'environment map si disponible
+      // Update of the environment map if available
       if (scene.environment && !material.uniforms.uEnvironmentMap.value) {
         material.uniforms.uEnvironmentMap.value = scene.environment;
       }
@@ -154,23 +154,23 @@ export default function Water({
 
   return (
     <group>
-      {/* Surface de l'eau visible */}
+      {/* Visible water surface */}
       <mesh
         ref={meshRef}
         position={position}
-        rotation={[-Math.PI / 2, 0, 0]} // Rotation pour que le plan soit horizontal
+        rotation={[-Math.PI / 2, 0, 0]} // Rotation to make the plane horizontal
         geometry={geometry}
         material={material}
       />
 
-      {/* Collider invisible pour empêcher le joueur de dépasser la surface */}
+      {/* Invisible collider to prevent the player from exceeding the surface */}
       <RigidBody
         type="fixed"
-        position={[0, position[1] - 0.5, 0]} // Centré et juste sous la surface
+        position={[0, position[1] - 0.5, 0]} // Centered and just below the surface
         colliders={false}
       >
         <CuboidCollider
-          args={[200, 1, 200]} // Zone large pour couvrir tout l'aquarium
+          args={[200, 1, 200]} // Large zone to cover the entire aquarium
           position={[0, 0, 0]}
         />
       </RigidBody>

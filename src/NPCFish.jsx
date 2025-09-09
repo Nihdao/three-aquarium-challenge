@@ -16,11 +16,11 @@ export default function NPCFish({
   const fishRef = useRef();
   const timeRef = useRef(0);
 
-  // Position initiale pour les calculs de mouvement
+  // Initial position for the movement calculations
   const initialPosition = useRef(position);
   const patternCenter = useRef(position);
 
-  // Paramètres des patterns de mouvement
+  // Parameters of the movement patterns
   const movementParams = useRef({
     circular: {
       radius: 15,
@@ -34,13 +34,13 @@ export default function NPCFish({
     },
     random: {
       targetPosition: [...position],
-      changeInterval: 3, // Changement de direction toutes les 3 secondes
+      changeInterval: 3, // Change direction every 3 seconds
       lastChange: 0,
       range: 25,
     },
   });
 
-  // Configuration des matériaux pour DoubleSide
+  // Configuration of the materials for DoubleSide
   useEffect(() => {
     fish.scene.traverse((child) => {
       if (child.isMesh && child.material) {
@@ -55,7 +55,7 @@ export default function NPCFish({
     });
   }, [fish.scene]);
 
-  // Jouer l'animation de nage si elle existe
+  // Play the swim animation if it exists
   useEffect(() => {
     const swimAnimation =
       animations.actions["Fish_Armature|Swimming_Fast"] ||
@@ -65,7 +65,7 @@ export default function NPCFish({
     if (swimAnimation) {
       swimAnimation.play();
     } else {
-      // Si pas d'animation de nage spécifique, jouer la première animation
+      // If there is no specific swim animation, play the first animation
       const firstAnimation = Object.values(animations.actions)[0];
       if (firstAnimation) {
         firstAnimation.play();
@@ -73,7 +73,7 @@ export default function NPCFish({
     }
   }, [animations]);
 
-  // Patterns de mouvement
+  // Movement patterns
   const calculateMovement = (delta) => {
     timeRef.current += delta;
     const params = movementParams.current;
@@ -103,7 +103,7 @@ export default function NPCFish({
         };
 
       case "random":
-        // Changer de direction périodiquement
+        // Change direction periodically
         if (
           timeRef.current - params.random.lastChange >
           params.random.changeInterval
@@ -119,7 +119,7 @@ export default function NPCFish({
           params.random.lastChange = timeRef.current;
         }
 
-        // Interpoler vers la position cible
+        // Interpolate towards the target position
         const currentPos = fishRef.current?.translation();
         if (currentPos) {
           const lerpFactor = delta * speed * 0.5;
@@ -148,7 +148,7 @@ export default function NPCFish({
     }
   };
 
-  // Calculer la rotation pour que le poisson regarde dans la direction du mouvement
+  // Calculate the rotation to make the fish look in the direction of the movement
   const calculateRotation = (currentPos, nextPos) => {
     const direction = new THREE.Vector3(
       nextPos.x - currentPos.x,
@@ -172,7 +172,7 @@ export default function NPCFish({
     const nextPos = calculateMovement(delta);
 
     if (nextPos) {
-      // Appliquer le mouvement avec une interpolation douce
+      // Apply the movement with a smooth interpolation
       const lerpFactor = delta * speed * 2;
       const newPosition = {
         x: THREE.MathUtils.lerp(currentPos.x, nextPos.x, lerpFactor),
@@ -182,7 +182,7 @@ export default function NPCFish({
 
       fishRef.current.setTranslation(newPosition, true);
 
-      // Calculer et appliquer la rotation
+      // Calculate and apply the rotation
       const rotation = calculateRotation(currentPos, nextPos);
       if (rotation) {
         const currentRotation = fishRef.current.rotation();
@@ -207,7 +207,7 @@ export default function NPCFish({
       mass={0.5}
       colliders={false}
       type="dynamic"
-      gravityScale={0} // Pas de gravité pour les poissons
+      gravityScale={0} // No gravity for the fish
     >
       <CuboidCollider args={[0.8, 0.6, 0.8]} />
       <primitive object={fish.scene} scale={scale} position={[0, 0, 0]} />

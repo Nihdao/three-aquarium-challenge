@@ -20,24 +20,24 @@ export default function Experience() {
   const { cameraMode } = useCameraStore();
   const isDebugMode = useDebugMode();
 
-  // Utilisation du composant DebugControls centralisé
+  // Use of the centralized DebugControls component
   const { waterEffects, waterSurface, aquarium } = DebugControls();
   const { enableWaves, waveStrength, waterColorIntensity, waterColor } =
     waterEffects;
 
   const { camera } = useThree();
 
-  // Position par défaut pour la caméra orbit
+  // Default position for the orbit camera
   const defaultOrbitPosition = [50, 120.23, 200.68];
   const defaultOrbitTarget = [0, 75, 0];
 
-  // Repositionner la caméra quand on change de mode
+  // Reposition the camera when changing mode
   useEffect(() => {
     if (cameraMode === "orbit") {
       camera.position.set(...defaultOrbitPosition);
       camera.lookAt(...defaultOrbitTarget);
     } else if (cameraMode === "third-person") {
-      // Position initiale plus proche du poisson
+      // Initial position closer to the fish
       camera.position.set(0, 80, -15);
       camera.lookAt(0, 75, 0);
     }
@@ -45,15 +45,15 @@ export default function Experience() {
 
   return (
     <>
-      {/* Afficher Perf seulement en mode debug */}
+      {/* Display Perf only in debug mode */}
       {isDebugMode && <Perf position="bottom-right" />}
-      {/* Contrôles pour l'environnement */}
+      {/* Controls for the environment */}
 
       <Environment preset="lobby" blur={0.4} background />
 
       <color attach="background" args={["#FFC312"]} />
 
-      {/* OrbitControls pour le mode contemplation */}
+      {/* OrbitControls for the contemplation mode */}
       {cameraMode === "orbit" && (
         <OrbitControls
           position={[37.43, 101.23, 200]}
@@ -90,14 +90,14 @@ export default function Experience() {
           speed={1.2}
         />
 
-        {/* Surface de l'eau */}
+        {/* Water surface */}
         <Water
           position={waterSurface.position}
           sizeX={waterSurface.sizeX}
           sizeZ={waterSurface.sizeZ}
           segments={512}
           {...waterSurface}
-          // Conversion des couleurs hex vers array RGB
+          // Conversion of hex colors to array RGB
           peakColor={[
             parseInt(waterSurface.peakColor.slice(1, 3), 16) / 255,
             parseInt(waterSurface.peakColor.slice(3, 5), 16) / 255,
@@ -106,7 +106,7 @@ export default function Experience() {
         />
       </Physics>
 
-      {/* Post-processing avec effet d'ondulation uniquement en mode poisson */}
+      {/* Post-processing with wave effect only in fish mode */}
       {cameraMode === "third-person" && enableWaves && (
         <EffectComposer>
           <WaterWaveEffect

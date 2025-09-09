@@ -3,7 +3,7 @@ import { useControlsStore } from "../stores/useControlsStore.jsx";
 import { useEffect } from "react";
 
 export function useHybridControls() {
-  // États des contrôles clavier (KeyboardControls)
+  // Keyboard controls states
   const keyboardForward = useKeyboardControls((state) => state.moveForward);
   const keyboardBackward = useKeyboardControls((state) => state.moveBackward);
   const keyboardLeft = useKeyboardControls((state) => state.moveLeft);
@@ -12,7 +12,7 @@ export function useHybridControls() {
   const keyboardDown = useKeyboardControls((state) => state.moveDown);
   const keyboardSwimFast = useKeyboardControls((state) => state.swimFast);
 
-  // États des contrôles tactiles (Zustand store)
+  // Touch controls states
   const {
     moveForward: touchForward,
     moveBackward: touchBackward,
@@ -24,7 +24,7 @@ export function useHybridControls() {
     setControl,
   } = useControlsStore();
 
-  // Synchroniser les contrôles clavier vers le store (pour que l'interface tactile reste synchronisée)
+  // Synchronize keyboard controls to the store
   useEffect(() => {
     setControl("moveForward", keyboardForward);
   }, [keyboardForward, setControl]);
@@ -53,7 +53,7 @@ export function useHybridControls() {
     setControl("swimFast", keyboardSwimFast);
   }, [keyboardSwimFast, setControl]);
 
-  // Retourner l'état combiné (clavier OU tactile)
+  // Return the combined state (keyboard OR touch)
   return {
     moveForward: keyboardForward || touchForward,
     moveBackward: keyboardBackward || touchBackward,

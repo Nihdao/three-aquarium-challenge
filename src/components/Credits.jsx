@@ -5,7 +5,7 @@ export function Credits() {
 
   return (
     <>
-      {/* Bouton pour ouvrir les crédits */}
+      {/* Button to open credits */}
       <button
         className="credits-button"
         onClick={() => setIsVisible(true)}
@@ -14,7 +14,7 @@ export function Credits() {
         INFO
       </button>
 
-      {/* Modal des crédits */}
+      {/* Credits modal */}
       {isVisible && (
         <div className="credits-overlay" onClick={() => setIsVisible(false)}>
           <div className="credits-modal" onClick={(e) => e.stopPropagation()}>

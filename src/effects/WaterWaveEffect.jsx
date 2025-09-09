@@ -10,29 +10,29 @@ uniform float waterColorIntensity;
 uniform vec3 waterColor;
 
 void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
-  // Créer des ondulations multiples avec différentes fréquences
+  // Create multiple waves with different frequencies
   float wave1 = sin(uv.x * 15.0 + time * 2.0) * 0.003;
   float wave2 = sin(uv.y * 12.0 + time * 1.5) * 0.002;
   float wave3 = sin((uv.x + uv.y) * 8.0 + time * 3.0) * 0.0015;
   
-  // Combiner les ondulations
+  // Combine the waves
   vec2 distortion = vec2(wave1 + wave3, wave2 + wave3) * strength;
   
-  // Appliquer la distorsion aux coordonnées UV
+  // Apply the distortion to the UV coordinates
   vec2 distortedUV = uv + distortion;
   
-  // Échantillonner la texture avec les UV déformées
+  // Sample the texture with the distorted UVs
   vec4 distortedColor = texture2D(inputBuffer, distortedUV);
   
-  // Appliquer le filtre bleu de l'eau
+  // Apply the blue filter of the water
   // Mélanger avec la couleur de l'eau basé sur l'intensité
   vec3 finalColor = mix(distortedColor.rgb, distortedColor.rgb * waterColor, waterColorIntensity);
   
-  // Légère désaturation pour un effet plus réaliste
+  // Slight desaturation for a more realistic effect
   float luminance = dot(finalColor, vec3(0.299, 0.587, 0.114));
   finalColor = mix(finalColor, vec3(luminance), 0.1);
   
-  // Ajouter une légère teinte bleue globale
+  // Add a slight blue tint globally
   finalColor = mix(finalColor, waterColor, waterColorIntensity * 0.2);
   
   outputColor = vec4(finalColor, distortedColor.a);

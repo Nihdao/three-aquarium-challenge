@@ -16,7 +16,7 @@ export function usePlayerCamera() {
   const moveUpT = 2;
 
   const updateCamera = (state, bodyPosition, fishQuaternion, keys) => {
-    // Ne mettre à jour la caméra que si on est en mode third-person
+    // Update the camera only if we are in third-person mode
     if (cameraMode !== "third-person") return;
 
     const { moveUp, moveDown } = keys;
@@ -29,21 +29,21 @@ export function usePlayerCamera() {
 
     // Calculate camera offset based on player rotation and tilt
     const cameraOffset = new THREE.Vector3(0, 2.65 * 3, -10.25 * 3);
-    // Appliquer d'abord le tilt dans l'espace local, puis la rotation du poisson
+    // Apply the tilt in the local space first, then the fish rotation
     cameraOffset
       .applyQuaternion(tiltQuaternion)
       .applyQuaternion(fishQuaternion);
 
-    // Set camera position relative to player position and rotation
+    // Set the camera position relative to the player position and rotation
     const cameraPosition = new THREE.Vector3();
     cameraPosition.copy(bodyPosition).add(cameraOffset);
 
-    // Set camera target to look at player with vertical offset
+    // Set the camera target to look at the player with a vertical offset
     const cameraTarget = new THREE.Vector3();
     cameraTarget.copy(bodyPosition);
     cameraTarget.y += moveUp ? moveUpT : moveDown ? moveDownT : 0.25;
 
-    // Smooth camera movement
+    // Smooth the camera movement
     smoothedCameraPosition.lerp(cameraPosition, 0.15);
     smoothedCameraTarget.lerp(cameraTarget, 0.15);
 

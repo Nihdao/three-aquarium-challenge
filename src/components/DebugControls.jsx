@@ -6,7 +6,7 @@ export function DebugControls() {
   const { cameraMode, setCameraMode } = useCameraStore();
   const isDebugMode = useDebugMode();
 
-  // Contrôles pour l'effet d'ondulation (seulement en mode debug)
+  // Controls for the wave effect
   const waterEffects = useControls(
     "Water Effects (Fish POV)",
     {
@@ -18,7 +18,7 @@ export function DebugControls() {
     { collapsed: !isDebugMode }
   );
 
-  // Contrôles pour la caméra
+  // Controls for the camera
   useControls("Camera", {
     viewMode: {
       value: cameraMode,
@@ -30,16 +30,16 @@ export function DebugControls() {
     },
   });
 
-  // Contrôles pour la surface de l'eau (seulement en mode debug)
+  // Controls for the water surface
   const waterSurface = useControls(
     "Water Surface",
     {
-      // Paramètres de taille
+      // Size parameters
       sizeX: { value: 159, min: 50, max: 800, step: 10 },
       sizeZ: { value: 59, min: 50, max: 800, step: 10 },
       position: { value: [8, 125, 18], min: -1000, max: 1000, step: 10 },
 
-      // Paramètres des vagues
+      // Wave parameters
       wavesAmplitude: { value: 1.4, min: 0, max: 10, step: 0.1 },
       wavesSpeed: { value: 0.2, min: 0, max: 3, step: 0.1 },
       wavesFrequency: { value: 0.02, min: 0.001, max: 0.1, step: 0.001 },
@@ -47,20 +47,20 @@ export function DebugControls() {
       wavesLacunarity: { value: 2.0, min: 1, max: 5, step: 0.1 },
       wavesIterations: { value: 3.0, min: 1, max: 8, step: 1 },
 
-      // Couleurs
+      // Colors
       peakColor: { value: "#e1f6fc" },
 
       // Fresnel
       fresnelScale: { value: 0.5, min: 0, max: 2, step: 0.05 },
       fresnelPower: { value: 2.0, min: 0.5, max: 5, step: 0.1 },
 
-      // Général
+      // General
       opacity: { value: 0.4, min: 0, max: 1, step: 0.05 },
     },
     { collapsed: !isDebugMode }
   );
 
-  // Contrôles pour l'aquarium (seulement en mode debug)
+  // Controls for the aquarium
   const aquarium = useControls(
     "Aquarium",
     {
@@ -69,7 +69,7 @@ export function DebugControls() {
     { collapsed: !isDebugMode }
   );
 
-  // Retourner les valeurs pour que Experience puisse les utiliser
+  // Return the values so Experience can use them
   return {
     waterEffects,
     waterSurface,

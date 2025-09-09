@@ -6,7 +6,7 @@ import { Credits } from "./components/Credits.jsx";
 export function Interface() {
   const [isMobile, setIsMobile] = useState(false);
 
-  // États des contrôles depuis le store
+  // Controls states from the store
   const {
     moveForward,
     moveBackward,
@@ -17,7 +17,7 @@ export function Interface() {
     setControl,
   } = useControlsStore();
 
-  // Handlers pour les contrôles tactiles
+  // Handlers for touch controls
   const handleTouchStart = (action) => {
     setControl(action, true);
   };
@@ -26,7 +26,7 @@ export function Interface() {
     setControl(action, false);
   };
 
-  // Détecter si on est sur mobile
+  // Detect if we are on mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 1000);
@@ -43,7 +43,7 @@ export function Interface() {
       {/* Credits Button */}
       <Credits />
 
-      {/* Fish Controls Legend - Desktop */}
+      {/* Fish Controls Legend - Desktop only */}
       {!isMobile && (
         <div className="fish-controls-legend">
           <div className="legend-title">Fish Controls</div>
@@ -58,7 +58,7 @@ export function Interface() {
         </div>
       )}
 
-      {/* Mobile Touch Controls */}
+      {/* Mobile Touch Controls - Mobile only */}
       {isMobile && (
         <div className="mobile-controls">
           <div className="direction-pad">

@@ -13,15 +13,15 @@ export default function FishTank({ glassOpacity = 0.15 }) {
     return <meshBasicMaterial color="#ff0000" />;
   }, []);
 
-  // Modifier les propriétés du matériau existant plutôt que de le remplacer
+  // Modify the properties of the existing material rather than replacing it
   useEffect(() => {
     if (fishTank_glass.nodes.FishTank) {
       fishTank_glass.nodes.FishTank.traverse((child) => {
         if (child.isMesh && child.material) {
-          // Préserver le matériau original mais ajuster les propriétés de transparence
+          // Preserve the original material but adjust the transparency properties
           const originalMaterial = child.material;
 
-          // Si c'est un tableau de matériaux
+          // If it's an array of materials
           if (Array.isArray(originalMaterial)) {
             originalMaterial.forEach((material) => {
               material.transparent = true;
@@ -31,7 +31,7 @@ export default function FishTank({ glassOpacity = 0.15 }) {
               material.needsUpdate = true;
             });
           } else {
-            // Si c'est un seul matériau
+            // If it's a single material
             originalMaterial.transparent = true;
             originalMaterial.opacity = glassOpacity;
             originalMaterial.side = THREE.DoubleSide;
@@ -39,7 +39,7 @@ export default function FishTank({ glassOpacity = 0.15 }) {
             originalMaterial.needsUpdate = true;
           }
 
-          child.renderOrder = 1; // Rendre après les objets opaques
+          child.renderOrder = 1; // Render after the opaque objects
         }
       });
     }
