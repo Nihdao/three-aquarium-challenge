@@ -63,6 +63,10 @@ Add `#debug` to the URL to access:
 
 Special thanks to [Dan Greenheck's threejs-water-shader](https://github.com/dgreenheck/threejs-water-shader) for the realistic water surface effects.
 
+## 👨‍💻 Author
+
+**Adam Alet** - [@nihdao](https://x.com/nihdao)
+
 ## 📄 License
 
 This project is created for educational purposes as part of the Three.js Journey course.

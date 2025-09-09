@@ -119,6 +119,21 @@ export function Credits() {
                 </p>
               </div>
 
+              <div className="credits-section">
+                <h3>👨‍💻 Author</h3>
+                <p>
+                  <strong>Adam Alet</strong>
+                  <br />
+                  <a
+                    href="https://x.com/nihdao"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    @nihdao
+                  </a>
+                </p>
+              </div>
+
               <div className="credits-footer">
                 <p>Big kudos for the Three.js community</p>
               </div>
